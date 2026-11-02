@@ -85,6 +85,24 @@
   .person .ti{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   .person .bd{font-size:.9rem;color:var(--ink-soft);line-height:1.5}
 
+  .exec{display:flex;flex-direction:column;align-items:center;margin:1rem 0 .5rem}
+  .exec .node{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:.85rem 1rem;box-shadow:var(--shadow);text-align:left}
+  .exec .node.top,.exec .node.ceo{width:min(100%,24rem);text-align:center}
+  .exec .node.ceo{border-top:3px solid var(--accent)}
+  .exec .rl{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .exec .nm{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;color:var(--ink);margin:.15rem 0 .3rem}
+  .exec .rm{font-size:.84rem;line-height:1.45;color:var(--ink-soft);margin-top:.25rem}
+  .exec .rm b{color:var(--ink);font-weight:600}
+  .exec .vline{width:1px;height:1.1rem;background:var(--rule)}
+  .exec .reports{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;width:100%;position:relative;padding-top:1.1rem}
+  .exec .reports::before{content:"";position:absolute;top:0;left:16.67%;right:16.67%;height:1px;background:var(--rule)}
+  .exec .reports > .node{position:relative;border-top:3px solid var(--accent-2)}
+  .exec .reports > .node::before{content:"";position:absolute;top:calc(-1.1rem - 3px);left:50%;width:1px;height:1.1rem;background:var(--rule)}
+  @media (max-width:720px){
+    .exec .reports{grid-template-columns:1fr;padding-top:0}
+    .exec .reports::before,.exec .reports > .node::before{display:none}
+  }
+  section p.note{font-size:.84rem;color:var(--muted);font-style:italic}
   .org{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1.1rem 1.25rem;color:var(--ink-soft);overflow:auto;white-space:pre;line-height:1.55;max-width:100%}
   .org .you{background:#FFEEB7;padding:0 .35rem;border-radius:3px;color:var(--ink);font-weight:600}
   .org .him{background:#F2C9C0;padding:0 .35rem;border-radius:3px;color:var(--ink);font-weight:600}
@@ -314,7 +332,7 @@
 
       <!-- 3 ORG -->
       <section id="org">
-        <div class="label"><span class="num">02</span><span class="tag">Map of the room</span></div>
+        <div class="label"><span class="num">02</span><span class="tag">Governance &amp; leadership</span></div>
         <h2>Org &amp; structure</h2>
 
         <h3>Board</h3>
@@ -337,24 +355,27 @@
         </ul>
 
         <h3>How the executive team is organised</h3>
-        <div class="org">CEO  Khalifa Al Hajeri
- │
- ├── CIO  Matthew Singh ──── Investment team
- │                            (deal sourcing, execution)
- │
- ├── Director, Operations  Danish Durrani
- │
- └── CPO  Karolos Travassaros
-       │
-       ├── Value Creation     ◄── led by Giacomo Martinelli Bellaviti Buttoni
-       │                          (portfolio value-creation plans)
-       │
-       ├── Partnerships
-       │     (MoUs with MoET, MoIAT, ADNOC, KEZAD,
-       │      Sharjah Chamber, RAKBANK, Hub71, EDB)
-       │
-       └── Marketing &amp; PR
-             (SuperReturn ME, MIITE, "Capital that grows with you")</div>
+        <div class="exec">
+          <div class="node top"><div class="rl">Board of Directors</div><div class="nm">Chair: H.E. Dr. Ahmad Belhoul Al Falasi</div><div class="rm">7 members · EDB-backed</div></div>
+          <div class="vline"></div>
+          <div class="node ceo"><div class="rl">Chief Executive Officer</div><div class="nm">Khalifa Al Hajeri</div><div class="rm">Since Oct 2025 · ex-Mubadala, Growth Investments</div></div>
+          <div class="vline"></div>
+          <div class="reports">
+            <div class="node"><div class="rl">CIO · Chief Investment Officer</div><div class="nm">Matthew Singh</div>
+              <div class="rm"><b>Remit:</b> the investment side — deal sourcing, due diligence, execution, Investment Committee.</div>
+              <div class="rm"><b>Background:</b> ex-BGF (UK) head of investments; EY Transaction Support.</div>
+              <div class="rm"><b>Latest:</b> fronted FMSi (Sep 2026).</div></div>
+            <div class="node"><div class="rl">CPO · Chief Portfolio Officer</div><div class="nm">Karolos Travassaros</div>
+              <div class="rm"><b>Remit:</b> the portfolio after investment — value creation, partnerships, marketing &amp; PR.</div>
+              <div class="rm"><b>Background:</b> ex-BCG (Partner); advisor to the EDB board and the ADNOC CEO.</div>
+              <div class="rm"><b>Latest:</b> SuperReturn ME speaker (Oct 2026).</div></div>
+            <div class="node"><div class="rl">Director, Operations</div><div class="nm">Danish Durrani</div>
+              <div class="rm"><b>Remit:</b> fund operations.</div>
+              <div class="rm"><b>Background:</b> not published.</div></div>
+          </div>
+        </div>
+        <p class="note">The split: the CIO finds and closes deals; the CPO works with companies after the investment; Operations runs the fund platform underneath both.</p>
+
 
               </section>
 
