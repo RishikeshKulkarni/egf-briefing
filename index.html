@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>EGF Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EFE6;
+    --paper-2:#EBE4D5;
+    --ink:#191613;
+    --ink-soft:#3A332C;
+    --muted:#736A5E;
+    --rule:#D6CDBC;
+    --rule-soft:#E5DECF;
+    --accent:#8A2A1D;
+    --accent-2:#2C5A3E;
+    --gold:#A6803E;
+    --callout:#EFE7D5;
+    --shadow:0 1px 0 rgba(25,22,19,.04), 0 8px 24px -16px rgba(25,22,19,.18);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  body{padding-bottom:6rem}
+  ::selection{background:var(--ink);color:var(--paper)}
+
+  .topbar{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--paper);border-bottom:1px solid #000}
+  .topbar-inner{max-width:1180px;margin:0 auto;padding:.6rem 1.25rem;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;font-size:.82rem;letter-spacing:.02em}
+  .topbar .pip{display:inline-block;width:.4rem;height:.4rem;border-radius:50%;background:var(--accent);margin-right:.5rem;transform:translateY(-1px)}
+  .topbar strong{font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:.72rem;opacity:.6;margin-right:.4rem}
+  .topbar .sep{opacity:.25}
+
+  .page{max-width:1180px;margin:0 auto;padding:2.25rem 1.25rem 0}
+
+  .masthead{border-bottom:1px solid var(--rule);padding-bottom:1.25rem;margin-bottom:2rem;display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+  .masthead .brand{font-family:'Fraunces',serif;font-weight:600;font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  .masthead h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(1.9rem,3.2vw,2.6rem);line-height:1.05;letter-spacing:-.015em;margin:.4rem 0 0;font-variation-settings:"opsz" 96}
+  .masthead .meta{font-size:.85rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+  .masthead .meta b{color:var(--ink-soft);font-weight:600}
+
+  .layout{display:grid;grid-template-columns:200px 1fr;gap:3rem}
+  .layout > *{min-width:0}  /* let grid tracks constrain children so wide content (org chart) doesn't force page-wide overflow */
+  @media (max-width:920px){.layout{grid-template-columns:1fr;gap:1rem}}
+
+  nav.toc{position:sticky;top:3rem;align-self:start;font-size:.82rem;border-left:1px solid var(--rule);padding:.25rem 0 .25rem 1rem;max-height:calc(100vh - 5rem);overflow:auto}
+  nav.toc ol{list-style:none;padding:0;margin:0;counter-reset:toc}
+  nav.toc li{counter-increment:toc;margin:.45rem 0;position:relative;padding-left:1.5rem}
+  nav.toc li::before{content:counter(toc,decimal-leading-zero);position:absolute;left:0;top:.05rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.05em}
+  nav.toc a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid transparent}
+  nav.toc a:hover{color:var(--accent);border-bottom-color:currentColor}
+  @media (max-width:920px){nav.toc{display:none}}
+
+  section{padding:2rem 0 2.25rem;border-bottom:1px solid var(--rule-soft);scroll-margin-top:4rem}
+  section:last-of-type{border-bottom:none}
+  section > .label{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem}
+  section > .label .num{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.1em}
+  section > .label .tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+  section h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(1.55rem,2.4vw,2.05rem);letter-spacing:-.01em;margin:0 0 1rem;line-height:1.1;font-variation-settings:"opsz" 96}
+  section h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:-.005em;margin:1.4rem 0 .6rem}
+  section p{margin:.6rem 0;color:var(--ink-soft);max-width:68ch}
+  section ul,section ol{padding-left:1.1rem;color:var(--ink-soft);max-width:68ch}
+  section li{margin:.3rem 0}
+  section a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
+  section a:hover{border-bottom-color:var(--accent)}
+
+  .card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1.1rem 1.25rem;box-shadow:var(--shadow)}
+  .callout{background:var(--callout);border-left:3px solid var(--accent);padding:1rem 1.15rem;border-radius:0 4px 4px 0;margin:1rem 0}
+  .callout .kicker{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.25rem}
+  .callout p{margin:0 0 .35rem;color:var(--ink)}
+  .callout p:last-child{margin-bottom:0}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+  .facts .f{background:var(--paper);padding:.85rem 1rem}
+  .facts .k{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem}
+  .facts .v{font-family:'Fraunces',serif;font-weight:500;font-size:1.05rem;color:var(--ink);line-height:1.25}
+  .facts .v small{display:block;font-family:'Inter',sans-serif;font-weight:400;font-size:.78rem;color:var(--muted);margin-top:.15rem;letter-spacing:0;text-transform:none}
+
+  .person{display:grid;grid-template-columns:1fr;gap:.6rem;padding:1.1rem 1.25rem;background:#fff;border:1px solid var(--rule);border-radius:6px;margin:.6rem 0}
+  .person .nm{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:-.005em}
+  .person .ti{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .person .bd{font-size:.9rem;color:var(--ink-soft);line-height:1.5}
+
+  .org{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1.1rem 1.25rem;color:var(--ink-soft);overflow:auto;white-space:pre;line-height:1.55;max-width:100%}
+  .org .you{background:#FFEEB7;padding:0 .35rem;border-radius:3px;color:var(--ink);font-weight:600}
+  .org .him{background:#F2C9C0;padding:0 .35rem;border-radius:3px;color:var(--ink);font-weight:600}
+  .org .her{background:#CDE0D2;padding:0 .35rem;border-radius:3px;color:var(--ink);font-weight:600}
+
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+  th,td{text-align:left;padding:.65rem .85rem;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+  th{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;border-bottom:1px solid var(--rule)}
+  td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  td .ladder{display:inline-block;margin-top:.35rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);background:#F0F5F1;border:1px solid #C9DCCF;padding:.18rem .42rem;border-radius:3px}
+
+  /* STRATEGIES */
+  .strat{display:grid;grid-template-columns:1fr;gap:.7rem;margin:1rem 0}
+  .strat .row{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1rem 1.2rem;display:grid;grid-template-columns:1fr;gap:.45rem}
+  @media (min-width:760px){.strat .row{grid-template-columns:14rem 1fr}}
+  .strat .nm{font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem;line-height:1.25;letter-spacing:-.005em;color:var(--ink)}
+  .strat .nm small{display:block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.2rem;font-weight:500}
+  .strat .body{font-size:.88rem;line-height:1.55;color:var(--ink-soft)}
+  .strat .body p{margin:0 0 .35rem;max-width:none}
+  .strat .body p:last-child{margin:0}
+  .strat .hits{margin-top:.45rem;display:flex;gap:.35rem;flex-wrap:wrap}
+  .strat .hits .pc{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .5rem;background:#F0F5F1;color:var(--accent-2);border:1px solid #C9DCCF;border-radius:3px}
+
+.news{display:grid;gap:.8rem;margin:1.1rem 0}
+  .news .ev{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1rem 1.15rem;box-shadow:var(--shadow)}
+  .news .ev.grp{border-left:3px solid var(--accent);background:linear-gradient(180deg,#fff,#FBF8F2)}
+  .news .when{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.06em;color:var(--accent);padding-top:.2rem;font-variant-numeric:tabular-nums}
+  .news .evname{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;line-height:1.3;color:var(--ink);margin-bottom:.35rem}
+  .news .evname small{display:inline-block;margin-left:.45rem;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);vertical-align:.12em}
+  .news p,.news ul{margin:.2rem 0;font-size:.9rem;max-width:none}
+  .news ul{padding-left:1.05rem}
+  .news .src{font-size:.78rem;color:var(--muted);margin-top:.45rem}
+  @media (max-width:680px){.news .ev{grid-template-columns:1fr;gap:.3rem}}
+
+  /* Q&A */
+  .qlist{counter-reset:q;list-style:none;padding:0;margin:0}
+  .qlist > li{counter-increment:q;padding:1.25rem 0 1.4rem;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:2.6rem 1fr;gap:.6rem}
+  .qlist > li:last-child{border-bottom:none}
+  .qlist > li::before{content:"Q" counter(q,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);padding-top:.3rem;letter-spacing:.06em;font-weight:600}
+  .qlist .q{font-family:'Fraunces',serif;font-weight:600;font-size:1.08rem;line-height:1.3;letter-spacing:-.005em;color:var(--ink);margin:0 0 .55rem}
+  .qlist .say{background:#fff;border:1px solid var(--rule);border-radius:5px;padding:.7rem .85rem;margin:.4rem 0;position:relative;font-size:.92rem;line-height:1.55;color:var(--ink);font-family:'Fraunces',serif;font-style:italic}
+  .qlist .say::before{content:"Say →";font-family:'JetBrains Mono',monospace;font-style:normal;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:inline-block;margin-right:.4rem;font-weight:600;vertical-align:.05em}
+  .qlist .meta{margin:.45rem 0;font-size:.86rem;line-height:1.5;color:var(--ink-soft);display:grid;grid-template-columns:5.5rem 1fr;gap:.25rem .65rem;align-items:start}
+  .qlist .meta .lbl{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding-top:.18rem;font-weight:600}
+  .qlist .meta .lbl.avoid{color:var(--muted)}
+  .qlist .meta p{margin:0;color:var(--ink-soft)}
+  .qlist .meta p b{color:var(--ink);font-weight:600}
+
+  .alist{counter-reset:qa;list-style:none;padding:0;margin:0}
+  .alist > li{counter-increment:qa;padding:1rem 0 1.1rem;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:2.6rem 1fr;gap:.6rem}
+  .alist > li:last-child{border-bottom:none}
+  .alist > li::before{content:"A" counter(qa,decimal-leading-zero);font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent-2);padding-top:.25rem;letter-spacing:.06em;font-weight:600}
+  .alist .q{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;line-height:1.35;color:var(--ink);margin:0 0 .35rem}
+  .alist .why{font-size:.85rem;line-height:1.5;color:var(--ink-soft);margin:0;font-style:italic}
+  .alist .why b{color:var(--ink);font-weight:600;font-style:normal}
+
+  .traps{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+  @media (max-width:720px){.traps{grid-template-columns:1fr}}
+  .traps .col{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1rem 1.1rem}
+  .traps .col.bad{border-left:3px solid var(--muted)}
+  .traps .col.good{border-left:3px solid var(--accent-2)}
+  .traps h4{margin:0 0 .55rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .traps .col.good h4{color:var(--accent-2)}
+  .traps p{margin:.3rem 0;font-size:.88rem;color:var(--ink-soft)}
+
+  .gloss{column-count:2;column-gap:2rem;font-size:.88rem;color:var(--ink-soft)}
+  @media (max-width:720px){.gloss{column-count:1}}
+  .gloss dt{font-family:'Fraunces',serif;font-weight:600;color:var(--ink);margin-top:.6rem;break-after:avoid}
+  .gloss dt:first-child{margin-top:0}
+  .gloss dd{margin:0 0 .3rem;padding:0;break-inside:avoid}
+
+  .chips{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}
+  .chip{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .55rem;border:1px solid var(--rule);border-radius:99px;color:var(--ink-soft);background:#fff}
+  .chip.live{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .chip.warm{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+  .closing{background:linear-gradient(180deg,var(--paper-2),var(--paper));border:1px solid var(--rule);border-radius:6px;padding:1.4rem 1.5rem;margin-top:.5rem}
+  .closing h3{margin-top:0}
+
+  footer{max-width:1180px;margin:2rem auto 0;padding:1.5rem 1.25rem;border-top:1px solid var(--rule);font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+
+  /* MOBILE JUMP-NAV (replaces sidebar TOC on small screens) */
+  .mobnav{display:none}
+
+  @media (max-width:920px){
+    html{-webkit-text-size-adjust:100%}
+    body{padding-bottom:3rem}
+    /* topbar: context read once — don't let it eat the viewport, make it one scrollable line */
+    .topbar{position:static}
+    .topbar-inner{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:.55rem;padding:.5rem .9rem;font-size:.72rem;scrollbar-width:none}
+    .topbar-inner::-webkit-scrollbar{display:none}
+    .topbar-inner > span{white-space:nowrap;flex:0 0 auto}
+
+    .page{padding:1.1rem 1rem 0}
+    .masthead{gap:.75rem;margin-bottom:1.25rem}
+    .masthead .meta{text-align:left}
+
+    .mobnav{display:block;position:sticky;top:0;z-index:15;margin:0 0 1.25rem;background:var(--paper);border:1px solid var(--rule);border-radius:6px;box-shadow:var(--shadow)}
+    .mobnav summary{cursor:pointer;list-style:none;padding:.72rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:flex;justify-content:space-between;align-items:center}
+    .mobnav summary::-webkit-details-marker{display:none}
+    .mobnav summary::after{content:"\25BE";transition:transform .2s ease}
+    .mobnav[open] summary::after{transform:rotate(180deg)}
+    .mobnav ol{list-style:none;margin:0;padding:.1rem .5rem .65rem;counter-reset:mn;columns:2;column-gap:.75rem;border-top:1px solid var(--rule-soft)}
+    .mobnav li{counter-increment:mn;margin:.12rem 0;break-inside:avoid}
+    .mobnav a{display:block;padding:.4rem .5rem;color:var(--ink-soft);text-decoration:none;font-size:.84rem;border-radius:4px;border-bottom:none;line-height:1.3}
+    .mobnav a:active{background:var(--paper-2)}
+    .mobnav a::before{content:counter(mn,decimal-leading-zero)"  ";color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.66rem}
+
+    section{padding:1.5rem 0 1.6rem;scroll-margin-top:3.5rem}
+    section h2{margin-bottom:.75rem}
+    section p,section ul,section ol,section li{max-width:none}
+    section{overflow-wrap:break-word}
+    section p,section li,.callout p,.qlist .q,.alist .q,.strat .body{overflow-wrap:anywhere}
+    .org{font-size:.72rem;padding:.9rem 1rem}
+    .facts .v{font-size:1rem}
+  }
+
+  /* PORTFOLIO TABLE → stacked cards on phones (no horizontal swipe) */
+  @media (max-width:680px){
+    table{font-size:.9rem}
+    table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    table,table tbody,table tr,table td{display:block;width:100%}
+    table tr{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:.45rem 1rem;margin:0 0 .85rem;box-shadow:var(--shadow)}
+    table td{border-bottom:1px solid var(--rule-soft);padding:.55rem 0;white-space:normal}
+    table td:last-child{border-bottom:none}
+    table td.num{white-space:normal}
+    table td::before{content:attr(data-label);display:block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem}
+  }
+
+  @media print{
+    body{background:#fff;color:#000;font-size:11pt}
+    .topbar,nav.toc,footer{display:none}
+    .layout{grid-template-columns:1fr}
+    section{break-inside:avoid;page-break-inside:avoid;border-bottom:1px solid #ccc;padding:1rem 0}
+    .qlist > li,.alist > li{break-inside:avoid;page-break-inside:avoid}
+    .card,.person,.org,.facts .f,.traps .col,.closing,.qlist .say,.strat .row{background:#fff;box-shadow:none}
+    a{color:#000;border-bottom:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span><span class="pip"></span><strong>Updated</strong>2 Nov 2026</span>
+    <span class="sep">·</span>
+    <span><strong>Subject</strong>Emirates Growth Fund (EGF)</span>
+    <span class="sep">·</span>
+    <span><strong>Backer</strong>Emirates Development Bank</span>
+    <span class="sep">·</span>
+    <span><strong>Fund</strong>AED 1 Bn growth equity</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <header class="masthead">
+    <div>
+      <div class="brand">Briefing</div>
+      <h1>EGF · Emirates Growth Fund</h1>
+    </div>
+    <div class="meta">
+      As of <b>2 Nov 2026</b><br>
+      Compiled from public sources<br>
+      Sources: egf.gov.ae, The National, Zawya, Clifford&nbsp;Chance, MIITE&nbsp;2026 coverage, Shorooq / FMSi release, SuperReturn&nbsp;ME, u.ae
+    </div>
+  </header>
+
+  <details class="mobnav">
+    <summary>Jump to section</summary>
+    <ol>
+      <li><a href="#glance">EGF at a glance</a></li>
+      <li><a href="#org">Org &amp; structure</a></li>
+      <li><a href="#portfolio">Portfolio &amp; pipeline</a></li>
+      <li><a href="#strategies">National strategies</a></li>
+      <li><a href="#whatjusthappened">News to date</a></li>
+      <li><a href="#bgf">BGF lineage</a></li>
+      <li><a href="#vocab">Operating vocabulary</a></li>
+    </ol>
+  </details>
+
+  <div class="layout">
+
+    <nav class="toc" aria-label="Table of contents">
+      <ol>
+        <li><a href="#glance">EGF at a glance</a></li>
+        <li><a href="#org">Org &amp; structure</a></li>
+        <li><a href="#portfolio">Portfolio &amp; pipeline</a></li>
+        <li><a href="#strategies">National strategies EGF plugs into</a></li>
+        <li><a href="#whatjusthappened">News — launch to today</a></li>
+        <li><a href="#bgf">The BGF lineage</a></li>
+        <li><a href="#vocab">Operating vocabulary</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <!-- 1 GLANCE -->
+      <section id="glance">
+        <div class="label"><span class="num">01</span><span class="tag">Org snapshot</span></div>
+        <h2>EGF at a glance</h2>
+        <p>EGF is the UAE's flagship federal growth-equity platform — about <b>18 months old</b> (launched May 2025). AED 1B mandate, backed by EDB (Emirates Development Bank). Active minority investor in SMEs across four national-priority sectors. <b>Three announced investments</b> to date: Tarmeem (healthcare), CarniStore (food) and FMSi (fleet-management tech, Sep 2026 — its first co-investment). The thesis is the <em>"missing middle"</em>: companies too big for VC, too entrepreneurial for traditional PE.</p>
+
+        <div class="facts">
+          <div class="f"><div class="k">Launched</div><div class="v">May 2025<small>1-year mark celebrated at MIITE, May 2026</small></div></div>
+          <div class="f"><div class="k">Portfolio</div><div class="v">3 companies<small>Tarmeem · CarniStore · FMSi</small></div></div>
+          <div class="f"><div class="k">Fund size</div><div class="v">AED 1 Bn<small>~USD 272M</small></div></div>
+          <div class="f"><div class="k">Backer</div><div class="v">EDB<small>Federal — UAE government</small></div></div>
+          <div class="f"><div class="k">Ticket</div><div class="v">AED 10–50M<small>per company</small></div></div>
+          <div class="f"><div class="k">Target rev.</div><div class="v">AED 10M+<small>SMEs, UAE-HQ'd</small></div></div>
+          <div class="f"><div class="k">Stake</div><div class="v">Active minority<small>Founders retain control</small></div></div>
+          <div class="f"><div class="k">Funding gap</div><div class="v">AED 7 Bn<small>UAE SME equity gap EGF cites</small></div></div>
+          <div class="f"><div class="k">Sectors</div><div class="v">Industry · Food · Health · AdvTech<small>"Non-oil real economy"</small></div></div>
+        </div>
+
+        <h3>The five value-creation pillars (EGF's own framing)</h3>
+        <ol>
+          <li><b>Strategic guidance</b> — board-level direction and thesis sharpening</li>
+          <li><b>Institutionalization &amp; governance</b> — turning founder-led companies into board-led ones</li>
+          <li><b>Operational excellence</b> — KPIs, finance function, cadence</li>
+          <li><b>Market access</b> — opening doors via the EDB and federal network</li>
+          <li><b>Talent access</b> — placing senior operators into portfolio companies</li>
+        </ol>
+
+        <div class="callout"><div class="kicker">Anchor</div><p>EGF isn't a generic growth fund — it is an <b>industrial-policy instrument</b>. Operation 300bn (the UAE's strategy to grow industrial GDP to AED 300bn by 2031) and the ICV (In-Country Value) programme are upstream. Everything it does ladders up to that, not to "returns" in isolation. The full strategy map is in §04.</p></div>
+      </section>
+
+      <!-- 3 ORG -->
+      <section id="org">
+        <div class="label"><span class="num">02</span><span class="tag">Map of the room</span></div>
+        <h2>Org &amp; structure</h2>
+
+        <h3>Board</h3>
+        <ul>
+          <li><b>H.E. Dr. Ahmad Belhoul Al Falasi</b> — Chairman · UAE Minister of Sports (formerly Minister of Higher Education, of Government Development, etc — a senior multi-portfolio minister)</li>
+          <li><b>H.E. Najla Ahmed Al Midfa</b> — Vice Chair &amp; Managing Director · prominent UAE entrepreneur-ecosystem figure (ex-Sheraa / Sharjah Entrepreneurship Center)</li>
+          <li><b>H.E. Mariam Saeed Ghobash</b> — Board Member</li>
+          <li><b>Stephen Welton</b> — Board Member · Chairman, British Business Bank · <em>founder of BGF (Business Growth Fund) in the UK</em>. This matters — see §06.</li>
+          <li><b>H.E. Khalfan Juma Belhoul</b> — Board Member · CEO of Dubai Future Foundation</li>
+          <li><b>H.E. Mohammed AlHuraimel Al Shamsi</b> — Board Member</li>
+          <li><b>H.E. Dr. Hassan AlSayegh</b> — Board Member</li>
+        </ul>
+
+        <h3>Executive</h3>
+        <ul>
+          <li><b>Khalifa Al Hajeri</b> — CEO, since Oct 2025. 15+ yrs at Mubadala — last role: Senior Principal for Growth Investments. MBA, IESE Business School (Spain).</li>
+          <li><b>Karolos Travassaros</b> — CPO (Chief Portfolio Officer), since July 2025 · previously Advisor to the Board of EDB while EGF was incubated, and Advisor to the CEO of ADNOC Group; ~10 years at BCG (to Partner); earlier M&amp;A at Deutsche Bank and Rothschild &amp; Co. MSc LSE.</li>
+          <li><b>Matthew Singh</b> — CIO (Chief Investment Officer) · ex-<em>BGF UK</em> head of investments, ex-EY (Ernst &amp; Young) Transaction Support; ICAS Chartered Accountant; BSc MORSE (Mathematics, Operational Research, Statistics &amp; Economics), Warwick. Fronted the FMSi deal (Sep 2026).</li>
+          <li><b>Danish Durrani</b> — Director, Operations.</li>
+        </ul>
+
+        <h3>How the executive team is organised</h3>
+        <div class="org">CEO  Khalifa Al Hajeri
+ │
+ ├── CIO  Matthew Singh ──── Investment team
+ │                            (deal sourcing, execution)
+ │
+ ├── Director, Operations  Danish Durrani
+ │
+ └── CPO  Karolos Travassaros
+       │
+       ├── Value Creation     ◄── led by Giacomo Martinelli Bellaviti Buttoni
+       │                          (portfolio value-creation plans)
+       │
+       ├── Partnerships
+       │     (MoUs with MoET, MoIAT, ADNOC, KEZAD,
+       │      Sharjah Chamber, RAKBANK, Hub71, EDB)
+       │
+       └── Marketing &amp; PR
+             (SuperReturn ME, MIITE, "Capital that grows with you")</div>
+
+              </section>
+
+      <!-- 5 PORTFOLIO -->
+      <section id="portfolio">
+        <div class="label"><span class="num">03</span><span class="tag">The portfolio</span></div>
+        <h2>Portfolio &amp; pipeline</h2>
+        <p>Three announced investments. The first two are flagship-quality sector openers — healthcare and food security. The third, FMSi (Sep 2026), is EGF's first co-investment (Shorooq-led) and its first deal in advanced technology. No new deals announced since mid-September; the NCP pipeline is still maturing. Each portfolio company ladders up to a specific federal strategy — that linkage is non-negotiable for EGF and worth referencing by name.</p>
+
+        <table>
+          <thead><tr><th>#</th><th>Company</th><th>Sector</th><th>Date</th><th class="num">Ticket</th><th>Status</th><th>Why it matters · what it ladders to</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="num" data-label="#">01</td>
+              <td data-label="Company"><b>Tarmeem Healthcare Holding</b><br><small style="color:var(--muted)">Co-founded by Dr. Ali &amp; Dr. Omar Al Suwaidi · Abu Dhabi-HQ · 20K+ patients/yr · doubling footprint over 18 mo</small></td>
+              <td data-label="Sector">Healthcare — orthopaedics &amp; spine</td>
+              <td class="num" data-label="Date">May 2025<br><small style="color:var(--muted)">announced at MIITE 2025</small></td>
+              <td class="num" data-label="Ticket">Undisclosed</td>
+              <td data-label="Status"><span class="chip live">Live</span></td>
+              <td data-label="Why it matters · ladders to">First-ever EGF investment. Advised by Clifford Chance. Signals sector-builder thesis, not opportunistic.<br><span class="ladder">Ladders to · We the UAE 2031 — top-10 healthcare</span></td>
+            </tr>
+            <tr>
+              <td class="num" data-label="#">02</td>
+              <td data-label="Company"><b>CarniStore</b><br><small style="color:var(--muted)">Founded 2018 · Dubai-HQ · online premium butchery + smokehouse · "anchoring premium protein"</small></td>
+              <td data-label="Sector">Food — premium protein</td>
+              <td class="num" data-label="Date">Mar 2026</td>
+              <td class="num" data-label="Ticket">AED 45M</td>
+              <td data-label="Status"><span class="chip live">Live</span></td>
+              <td data-label="Why it matters · ladders to">First food-sector deal. Direct hit on food-security mandate. ~USD 12.25M strategic minority.<br><span class="ladder">Ladders to · National Food Security Strategy 2051</span></td>
+            </tr>
+            <tr>
+              <td class="num" data-label="#">03</td>
+              <td data-label="Company"><b>FMSi (Fleet Management Systems International)</b><br><small style="color:var(--muted)">Founded 2003 · UAE, Oman, KSA · FMSiTrack telematics + AI video safety · 1,000+ enterprise customers</small></td>
+              <td data-label="Sector">Advanced tech — fleet telematics</td>
+              <td class="num" data-label="Date">Sep 2026</td>
+              <td class="num" data-label="Ticket">Undisclosed</td>
+              <td data-label="Status"><span class="chip live">Live</span></td>
+              <td data-label="Why it matters · ladders to">Co-investment led by Shorooq's PE strategy — first Shorooq × EGF deal. Buy-and-build plan: organic growth + acquisitions to build a regional platform. Fronted by CIO Matthew Singh.<br><span class="ladder">Ladders to · National AI Strategy 2031 · regional champion thesis</span></td>
+            </tr>
+            <tr>
+              <td class="num" data-label="#">04</td>
+              <td data-label="Company"><b>NCP (National Champions Programme)</b><br><small style="color:var(--muted)">Trilateral platform — not a deal. Pipeline mechanism for manufacturing SMEs</small></td>
+              <td data-label="Sector">Manufacturing pipeline platform</td>
+              <td class="num" data-label="Date">May 2026</td>
+              <td class="num" data-label="Ticket">—</td>
+              <td data-label="Status"><span class="chip warm">Building pipeline</span></td>
+              <td data-label="Why it matters · ladders to">Trilateral with MoIAT + MoET. Not a deal — the funnel for the next 10 deals.<br><span class="ladder">Ladders to · Operation 300bn + ICV</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout"><div class="kicker">Read</div><p>Three deals in 18 months is <b>deliberate, not slow</b>. At AED 10–50M tickets and a five-pillar value-creation model that demands hands-on engagement, a young Portfolio Operations team can responsibly absorb maybe 4–6 actives early on. The discipline is the story — and co-investing alongside a lead like Shorooq (FMSi) is how EGF adds deal flow without overloading its own team.</p></div>
+      </section>
+
+      <!-- 6 STRATEGIES -->
+      <section id="strategies">
+        <div class="label"><span class="num">04</span><span class="tag">The macro EGF ladders to</span></div>
+        <h2>National strategies EGF plugs into</h2>
+        <p>EGF doesn't do growth equity in a vacuum. Every portfolio company ladders up to a specific federal strategy with a named target year and named owner ministry. The map explains <em>why</em> the fund exists — not just <em>what</em> it does.</p>
+
+        <div class="strat">
+
+          <div class="row">
+            <div class="nm">Operation 300bn<small>MoIAT · target 2031</small></div>
+            <div class="body">
+              <p><b>What it is:</b> Grow industrial sector contribution to UAE GDP from AED 133bn to <b>AED 300bn by 2031</b>; build 13,500 industrial SMEs; raise industrial R&amp;D to 2% of GDP. EDB has allocated AED 30bn over five years as the financing arm.</p>
+              <p><b>EGF's role:</b> The federal growth-equity instrument for this. Sits underneath EDB. The NCP is the explicit funnel.</p>
+              <div class="hits"><span class="pc">NCP</span><span class="pc">Industrial Resilience Agreement</span><span class="pc">Future manufacturing portfolio companies</span></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="nm">National Food Security Strategy 2051<small>Ministry of Climate Change &amp; Env · target 2051</small></div>
+            <div class="body">
+              <p><b>What it is:</b> UAE #1 on the Global Food Security Index by 2051. Five objectives — diversify supply sources, expand local production (smart farming, hydroponics, vertical farming), reduce food waste, strengthen value chain, mitigate risk.</p>
+              <p><b>EGF's role:</b> Equity into private-sector food champions building the local production base. CarniStore is the inaugural deal under this strategy.</p>
+              <div class="hits"><span class="pc">CarniStore</span></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="nm">"We the UAE 2031" — Healthcare<small>Federal vision · target 2031</small></div>
+            <div class="body">
+              <p><b>What it is:</b> UAE in the global <b>top 10 for healthcare quality</b> by 2031. Healthcare-services localization. Federal Decree-Law 38/2024 consolidated drug regulation to attract R&amp;D and biotech investment.</p>
+              <p><b>EGF's role:</b> Equity into domestic specialty providers reducing outbound medical tourism. Tarmeem is the wedge.</p>
+              <div class="hits"><span class="pc">Tarmeem</span></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="nm">ICV (In-Country Value) programme<small>ADNOC · ongoing</small></div>
+            <div class="body">
+              <p><b>What it is:</b> ADNOC's localization mandate — routes procurement spend toward UAE-based suppliers, scores them on local-value contribution. The largest single offtake/localization mechanism in the country.</p>
+              <p><b>EGF's role:</b> The Industrial Resilience Agreement (signed at MIITE 2026, see §05) plugs portfolio manufacturing companies directly into ADNOC's supplier ecosystem. This is the single most valuable distribution channel EGF can offer a portfolio company.</p>
+              <div class="hits"><span class="pc">Future manufacturing deals</span><span class="pc">NCP pipeline</span></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="nm">UAE National AI Strategy 2031 + Agentic AI mandate<small>Federal &amp; Dubai · target 2028</small></div>
+            <div class="body">
+              <p><b>What it is — federal:</b> 23 April 2026 — UAE Cabinet directive that <b>50% of federal government services run on autonomous AI agents by 2028</b>. <b>What it is — Dubai:</b> 4 May 2026 (the same day MIITE opened) — Crown Prince Sheikh Hamdan launched a <b>two-year mandate for Dubai's entire private sector to adopt agentic AI</b>, with training tracks via Dubai Chamber of Commerce, government-funded incubators, and dedicated investment funds.</p>
+              <p><b>EGF's role:</b> No public EGF position as of Nov 2026. But CarniStore is Dubai-HQ — so portfolio companies are directly subject to the Dubai mandate. A new "AI readiness" lens almost certainly has to enter the value-creation playbook: due-diligence pre-investment, operational lever post-investment, board-level reporting after. FMSi's AI video telematics makes it concrete.</p>
+              <div class="hits"><span class="pc">CarniStore (Dubai)</span><span class="pc">FMSi (AI telematics)</span><span class="pc">All future Dubai portfolio companies</span><span class="pc">EGF's internal operating model</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="callout"><div class="kicker">Pattern to notice</div><p>Every strategy has a <b>target year</b>, a <b>named ministry/sponsor</b>, and a <b>measurable goal</b>. That's the UAE policy idiom — <em>"Operation 300bn, MoIAT, AED 300bn by 2031"</em>, not <em>"the industrial plan"</em>.</p></div>
+      </section>
+
+      <!-- 7 WHAT JUST HAPPENED -->
+      <section id="whatjusthappened">
+        <div class="label"><span class="num">05</span><span class="tag">As of 2 Nov 2026</span></div>
+        <h2>News — launch to today</h2>
+        <p>Everything EGF has announced publicly, newest first. Big events are grouped: everything EGF did at that event sits in one card.</p>
+
+        <div class="news">
+
+          <div class="ev grp">
+            <div class="when">Oct 2026</div>
+            <div class="what">
+              <div class="evname">SuperReturn Middle East 2026 <small>Dubai · event</small></div>
+              <ul>
+                <li><b>EGF listed as a sponsor</b>, as it was in 2025 (Lead Growth Capital Partner).</li>
+                <li><b>Karolos Travassaros</b> (Chief Portfolio Officer) listed as a speaker.</li>
+                <li>EGF sessions listed on <b>growth capital in the UAE</b> and <b>value creation in portfolio companies</b>.</li>
+              </ul>
+              <p class="src">Source: SuperReturn ME sponsor and speaker pages. The organiser's pages give conflicting dates (13–15 vs 20–22 Oct). No EGF press release from the event so far.</p>
+            </div>
+          </div>
+
+          <div class="ev">
+            <div class="when">14–15 Sep 2026</div>
+            <div class="what">
+              <div class="evname">Investment #3: FMSi, alongside Shorooq <small>Deal</small></div>
+              <p>A growth investment in <b>Fleet Management Systems International</b>, a regional fleet-telematics company (founded 2003, offices in the UAE, Oman and KSA, 1,000+ enterprise customers). <b>Shorooq's private-equity strategy led</b> with a syndicate of co-investors. It is EGF's first co-investment with Shorooq. The plan is to build a regional platform through organic growth and acquisitions. Ticket size not disclosed. CIO Matthew Singh spoke for EGF.</p>
+            </div>
+          </div>
+
+          <div class="ev grp">
+            <div class="when">27 Apr – 15 May 2026</div>
+            <div class="what">
+              <div class="evname">Make it in the Emirates (MIITE) 2026 <small>Abu Dhabi · 4–7 May · event</small></div>
+              <ul>
+                <li><b>27 Apr: named Exclusive Growth Capital Partner</b> of MIITE 2026.</li>
+                <li><b>5–6 May: first anniversary and launch of the National Champions Programme (NCP)</b>, with MoIAT and MoET. It is meant to scale UAE manufacturing SMEs into national champions by bundling capital, governance and market access.</li>
+                <li><b>Industrial Resilience Agreement</b>, a three-way deal between EGF, MoIAT and <b>ADNOC</b>. It opens ADNOC's supply chain (through the ICV programme) to scaled UAE manufacturers.</li>
+                <li><b>MoU with the Sharjah Chamber of Commerce &amp; Industry</b>, on wider SME financing and support.</li>
+                <li><b>MoU with RAKBANK</b>, a framework pairing growth equity with banking for SMEs: funding access, market insight and advisory support.</li>
+                <li>Three ministers publicly backed the agenda: <b>Dr. Sultan Al Jaber</b> (MoIAT, ADNOC), <b>Abdulla Bin Touq Al Marri</b> (MoET) and EGF Chair <b>Dr. Ahmad Belhoul Al Falasi</b>.</li>
+                <li><b>15 May: EGF closed MIITE 2026</b> with a summary of the agreements. CEO Khalifa Al Hajeri: <em>"…all aimed at supporting UAE manufacturers with real potential to become national champions."</em></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ev">
+            <div class="when">30 Mar 2026</div>
+            <div class="what">
+              <div class="evname">Investment #2: CarniStore, AED 45M <small>Deal</small></div>
+              <p>A strategic minority stake (about USD 12.2M) in the Dubai-based online premium butchery and smokehouse. It is EGF's first food-sector deal and supports the National Food Security Strategy 2051.</p>
+            </div>
+          </div>
+
+          <div class="ev">
+            <div class="when">Jan 2026</div>
+            <div class="what">
+              <div class="evname">Two government and ecosystem MoUs <small>Partnerships</small></div>
+              <ul>
+                <li><b>14 Jan: MoU with the Ministry of Economy &amp; Tourism (MoET)</b>, on SME growth, national economic clusters and global market access.</li>
+                <li><b>22 Jan: MoU with KEZAD Group</b> (Khalifa Economic Zones Abu Dhabi), on industrial real estate and ecosystem access for portfolio SMEs.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ev">
+            <div class="when">5 Oct 2025</div>
+            <div class="what">
+              <div class="evname">Khalifa Al Hajeri appointed CEO <small>Leadership</small></div>
+              <p>He joined after 15+ years at Mubadala, most recently as Senior Principal, Growth Investments.</p>
+            </div>
+          </div>
+
+          <div class="ev grp">
+            <div class="when">May 2025</div>
+            <div class="what">
+              <div class="evname">Make it in the Emirates (MIITE) 2025: launch <small>Abu Dhabi · event</small></div>
+              <ul>
+                <li><b>EDB launched EGF</b> as an AED 1bn federal growth-equity platform for UAE SMEs.</li>
+                <li><b>21 May: investment #1, Tarmeem Healthcare Holding</b>, a strategic minority stake in the Abu Dhabi orthopaedic and spine group (a hospital plus medical centres in Khalifa City A and Al Ain, 20K+ patients a year). Clifford Chance advised EGF (Sep 2025).</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="callout"><div class="kicker">What to take from it</div><p>The pattern: <b>big announcements cluster around MIITE each May</b>, and deals land in between. Since FMSi in mid-September there has been nothing new publicly. The most recent signals: <b>FMSi</b> (the first co-investment, and a buy-and-build) and the <b>SuperReturn ME 2026</b> sessions on value creation.</p></div>
+        <div class="callout"><div class="kicker">Context, not EGF news</div><p><b>4 May 2026</b>, the day MIITE opened: Sheikh Hamdan launched a two-year mandate for Dubai's private sector to adopt agentic AI. Dubai-based portfolio companies like CarniStore fall under it. See §04.</p></div>
+      </section>
+
+      <!-- 8 BGF -->
+      <section id="bgf">
+        <div class="label"><span class="num">06</span><span class="tag">Background</span></div>
+        <h2>The BGF (Business Growth Fund) lineage</h2>
+        <p>EGF is structurally a UAE adaptation of the UK's <b>BGF (Business Growth Fund)</b>, a £3bn growth-equity platform launched in 2011 by the major UK banks alongside the government. The evidence:</p>
+        <ul>
+          <li><b>Stephen Welton</b> — founder of BGF — sits on the EGF board.</li>
+          <li><b>Matthew Singh</b> — EGF's CIO — came directly from BGF, where he led investments from 2015.</li>
+          <li>Same playbook: government/bank-backed, minority equity, "patient capital", growth-stage SMEs, sector-priority focus, governance-first value creation.</li>
+          <li>BGF is the world's most-active growth investor by deal volume — over 600 investments since 2011 — so the model is battle-tested.</li>
+        </ul>
+              </section>
+
+      <!-- 12 VOCAB -->
+      <section id="vocab">
+        <div class="label"><span class="num">07</span><span class="tag">Glossary</span></div>
+        <h2>Operating vocabulary</h2>
+        <dl class="gloss">
+          <dt>IRR (Internal Rate of Return)</dt><dd>Time-weighted return on invested capital. Optics-heavy; penalizes long holds.</dd>
+          <dt>MOIC (Multiple on Invested Capital)</dt><dd>Total return divided by cost. Patient-capital favourite.</dd>
+          <dt>TVPI (Total Value to Paid-In)</dt><dd>Includes unrealized value. The main reportable for an early-stage fund.</dd>
+          <dt>DPI (Distributions to Paid-In)</dt><dd>Cash actually returned to LPs. The only one that pays bills.</dd>
+          <dt>RVPI (Residual Value to Paid-In)</dt><dd>The "still in the ground" piece — TVPI minus DPI.</dd>
+          <dt>J-curve</dt><dd>The early dip in fund returns before exits start. EGF still lives here.</dd>
+          <dt>100-day plan</dt><dd>The post-close stabilize-and-set-cadence playbook for a newly acquired portfolio company.</dd>
+          <dt>Value bridge</dt><dd>Decomposition of equity-value uplift into revenue growth, margin, multiple expansion, debt paydown.</dd>
+          <dt>EBITDA bridge</dt><dd>Period-over-period walk of EBITDA: volume, price, mix, cost, one-offs.</dd>
+          <dt>Run-rate synergies</dt><dd>Annualized cost or revenue synergies achievable once a programme is fully implemented.</dd>
+          <dt>NWC (Net Working Capital)</dt><dd>Receivables + inventory − payables. The most under-managed value lever in growth-stage portfolio companies.</dd>
+          <dt>ICV (In-Country Value)</dt><dd>ADNOC's localization mandate. <b>This is the gate to the Industrial Resilience Agreement.</b></dd>
+          <dt>NCP (National Champions Programme)</dt><dd>The EGF + MoIAT + MoET initiative launched at MIITE, May 2026.</dd>
+          <dt>Operation 300bn</dt><dd>UAE's strategy to grow industrial GDP to AED 300bn by 2031. The macro thesis EGF ladders to.</dd>
+          <dt>The "missing middle"</dt><dd>EGF's own term — SMEs too big for VC, too entrepreneurial for traditional PE.</dd>
+          <dt>Active minority</dt><dd>A minority equity stake with structured value-creation engagement. Governance via board seats and reporting rights, not control.</dd>
+          <dt>WIP (Work In Progress) limit</dt><dd>A cap on how many initiatives are active at once. The operating-system version of "fewer, bigger, better."</dd>
+          <dt>IC (Investment Committee)</dt><dd>The body that approves new deals. EGF's IC includes the CEO, CIO, CPO and board representation.</dd>
+          <dt>LP (Limited Partner)</dt><dd>A capital provider to a fund. For EGF, EDB is effectively the LP layer.</dd>
+          <dt>Co-investment</dt><dd>Investing alongside a lead investor who structures the deal. FMSi (Shorooq-led) is EGF's first.</dd>
+          <dt>Buy-and-build</dt><dd>Growing a platform company through bolt-on acquisitions as well as organic growth — the FMSi plan.</dd>
+          <dt>Agentic AI</dt><dd>AI systems that act autonomously — noticing issues, contacting parties, executing tasks — beyond chatbots or basic automation. Mandated for Dubai's private sector within two years (announced 4 May 2026).</dd>
+        </dl>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <div>EGF Briefing · as of 2 Nov 2026 · public sources: egf.gov.ae, Zawya, Clifford Chance, Shorooq, SuperReturn ME, u.ae</div>
+    <div>Press <kbd>Ctrl/Cmd&nbsp;+&nbsp;P</kbd> to print to PDF</div>
+  </footer>
+
+</div>
+
+<script>
+  // Close the mobile jump-nav after tapping a section link so it doesn't cover the content.
+  var mn = document.querySelector('.mobnav');
+  if (mn) mn.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mn.open = false; });
+  });
+</script>
+
+</body>
+</html>
